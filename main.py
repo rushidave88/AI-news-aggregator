@@ -1,41 +1,29 @@
 # main.py
 
-import sys
-from pathlib import Path
-
-# ─── ADD src/ TO PYTHON PATH ─────────────────────────────────────────
-# Ensures Python can find news_aggregator package
-sys.path.insert(0, str(Path(__file__).parent / "src"))
-
-from news_aggregator.config import settings
-from news_aggregator.database import create_tables, add_subscriber
-from news_aggregator.scheduler import start_scheduler
-
+from news_aggregator.scraper import scrape_all_channels
+from news_aggregator.summarizer import process_unprocessed_articles
+from news_aggregator.mailer import send_daily_digest
+from news_aggregator.database import init_db
 
 def main():
-    print("=" * 50)
-    print("   📰 AI NEWS AGGREGATOR")
-    print("=" * 50)
+    print("🚀 AI News Aggregator starting...")
 
-    # Step 1: Verify config loaded correctly
-    print(f"\n✅ Config loaded")
-    print(f"   Gmail:        {settings.gmail_address}")
-    print(f"   DB:           {settings.database_url}")
-    print(f"   Digest at:    {settings.digest_hour:02d}:00 AM")
-    print(f"   Fetch every:  {settings.fetch_interval_minutes} mins")
+    # 1. Initialize database tables
+    init_db()
 
-    # Step 2: Create database tables (safe to run every time)
-    print(f"\n🗄️  Setting up database...")
-    create_tables()
+    # 2. Scrape YouTube channels
+    print("\n📡 STEP 1 — Scraping YouTube channels...")
+    scrape_all_channels()
 
-    # Step 3: Add default subscriber from .env
-    print(f"\n👤 Adding default subscriber...")
-    add_subscriber(settings.digest_recipient)
+    # 3. Summarize with Groq
+    print("\n🤖 STEP 2 — Summarizing with Groq...")
+    process_unprocessed_articles()
 
-    # Step 4: Start the scheduler (runs forever)
-    print(f"\n⏰ Starting scheduler...")
-    start_scheduler()
+    # 4. Send email digest
+    print("\n📧 STEP 3 — Sending email digest...")
+    send_daily_digest()
 
+    print("\n✅ Pipeline complete!")
 
 if __name__ == "__main__":
     main()
