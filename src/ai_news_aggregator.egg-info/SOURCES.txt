@@ -1,0 +1,15 @@
+README.md
+pyproject.toml
+src/ai_news_aggregator.egg-info/PKG-INFO
+src/ai_news_aggregator.egg-info/SOURCES.txt
+src/ai_news_aggregator.egg-info/dependency_links.txt
+src/ai_news_aggregator.egg-info/requires.txt
+src/ai_news_aggregator.egg-info/top_level.txt
+src/news_aggregator/__init__.py
+src/news_aggregator/config.py
+src/news_aggregator/database.py
+src/news_aggregator/mailer.py
+src/news_aggregator/models.py
+src/news_aggregator/scheduler.py
+src/news_aggregator/scraper.py
+src/news_aggregator/summarizer.py
