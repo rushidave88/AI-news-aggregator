@@ -170,9 +170,7 @@ This project can be deployed to Render.com for free 24/7 operation:
 •	PostgreSQL — managed database (free 90-day tier)
 •	Cron Job — replaces the local scheduler
 Deployment guide coming soon.
- 
-📄 License
-MIT License — free to use, modify, and distribute.
+
  
 🙏 Acknowledgements
 •	Groq — blazing fast LLM inference
