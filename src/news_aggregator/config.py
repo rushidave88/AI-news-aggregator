@@ -1,4 +1,4 @@
-# src/news_aggregator/config.py
+
 
 import os
 from pydantic_settings import BaseSettings
@@ -6,20 +6,18 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
 
-    # ── Groq ──────────────────────────────────────
+    # ── Groq
     groq_api_key: str
 
-    # ── Email ─────────────────────────────────────
+    # ── Email
     email_user: str
     email_password: str
     email_to: str
 
-    # ── Database ──────────────────────────────────
-    # Render gives DATABASE_URL directly
-    # Local uses individual params
+    # ── Database ─
     database_url: str = ""
 
-    # Local fallback (used if DATABASE_URL not set)
+    
     postgres_user: str     = "admin"
     postgres_password: str = "password"
     postgres_db: str       = "news_db"
@@ -34,7 +32,7 @@ class Settings(BaseSettings):
         - Locally    → builds from individual params
         """
         if self.database_url:
-            # Render uses 'postgres://' but psycopg2 needs 'postgresql://'
+            
             url = self.database_url
             if url.startswith("postgres://"):
                 url = url.replace("postgres://", "postgresql://", 1)

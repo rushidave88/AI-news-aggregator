@@ -1,4 +1,4 @@
-# src/news_aggregator/mailer.py
+
 
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -15,8 +15,8 @@ from news_aggregator.database import (
 )
 
 
-# ─── HTML EMAIL TEMPLATE ─────────────────────────────────────────────
-# Jinja2 template — {{ variable }} gets replaced with real values
+
+
 EMAIL_TEMPLATE = """
 <!DOCTYPE html>
 <html>
@@ -98,7 +98,7 @@ EMAIL_TEMPLATE = """
 """
 
 
-# ─── GROUP ARTICLES BY CATEGORY ──────────────────────────────────────
+
 def group_by_category(articles: list[NewsArticle]) -> dict[str, list[NewsArticle]]:
     """
     Groups articles by their category for organized email layout.
@@ -115,7 +115,7 @@ def group_by_category(articles: list[NewsArticle]) -> dict[str, list[NewsArticle
     return grouped
 
 
-# ─── BUILD HTML EMAIL ─────────────────────────────────────────────────
+
 def build_email_html(articles: list[NewsArticle]) -> str:
     """
     Renders the Jinja2 HTML template with real article data.
@@ -126,7 +126,7 @@ def build_email_html(articles: list[NewsArticle]) -> str:
     # Count unique channels in today's digest
     channels = len(set(a.channel_name for a in articles))
 
-    # Render template — replaces {{ variables }} with real values
+    
     template = Template(EMAIL_TEMPLATE)
     html = template.render(
         date=datetime.now().strftime("%A, %B %d %Y"),
@@ -137,24 +137,23 @@ def build_email_html(articles: list[NewsArticle]) -> str:
     return html
 
 
-# ─── SEND EMAIL ───────────────────────────────────────────────────────
+# ─── SEND EMAIL
 def send_email(to_address: str, subject: str, html_body: str) -> bool:
     """
     Sends one HTML email via Gmail SMTP.
     Returns True if sent successfully, False if failed.
     """
     try:
-        # Build the email message
+       
         msg = MIMEMultipart("alternative")
         msg["Subject"] = subject
         msg["From"]    = settings.gmail_address
         msg["To"]      = to_address
 
-        # Attach HTML body
+        
         msg.attach(MIMEText(html_body, "html"))
 
-        # Connect to Gmail SMTP and send
-        # Port 465 = SSL (encrypted from the start)
+        
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
             server.login(
                 settings.gmail_address,
@@ -174,7 +173,6 @@ def send_email(to_address: str, subject: str, html_body: str) -> bool:
         return False
 
 
-# ─── MAIN FUNCTION ────────────────────────────────────────────────────
 def send_daily_digest() -> None:
     """
     Master function called by scheduler.py every 24 hours.
@@ -220,7 +218,7 @@ def send_daily_digest() -> None:
             sent_count += 1
 
     # Step 5: Mark all articles as emailed
-    # So they don't appear in tomorrow's digest
+    
     article_ids = [a.id for a in articles]
     mark_articles_as_emailed(article_ids)
 

@@ -1,4 +1,3 @@
-# src/news_aggregator/scraper.py
 
 import feedparser
 import http.cookiejar
@@ -21,12 +20,11 @@ YOUTUBE_CHANNELS = [
 ]
 
 
-# ─── BUILD RSS URL ────────────────────────────────────────────────────
+
 def get_rss_url(channel_id: str) -> str:
     return f"https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
 
 
-# ─── EXTRACT VIDEO ID FROM URL ────────────────────────────────────────
 def extract_video_id(video_url: str) -> str:
     """
     Handles all YouTube URL formats:
@@ -43,7 +41,7 @@ def extract_video_id(video_url: str) -> str:
     return video_url
 
 
-# ─── BUILD HTTP SESSION WITH COOKIES ─────────────────────────────────
+
 def build_session() -> Session:
     """
     Creates a requests Session with:
@@ -76,7 +74,7 @@ def build_session() -> Session:
     return session
 
 
-# ─── FETCH VIDEOS FROM ONE CHANNEL ───────────────────────────────────
+# ─── FETCH VIDEOS FROM ONE CHANNEL 
 def fetch_channel_videos(
     channel_id: str,
     channel_name: str,
@@ -130,8 +128,7 @@ def fetch_channel_videos(
         print(f"❌ Error fetching {channel_name}: {e}")
         return []
 
-
-# ─── GET TRANSCRIPT ───────────────────────────────────────────────────
+# ─── GET TRANSCRIPT 
 def get_transcript(video_id: str) -> str | None:
     """
     Extracts full spoken transcript from a YouTube video.
@@ -169,7 +166,7 @@ def get_transcript(video_id: str) -> str | None:
         return None
 
 
-# ─── MAIN FUNCTION ────────────────────────────────────────────────────
+
 def scrape_all_channels() -> list[ArticleCreate]:
     """
     Master function called by scheduler.py every hour.

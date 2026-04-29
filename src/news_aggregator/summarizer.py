@@ -1,4 +1,4 @@
-# src/news_aggregator/summarizer.py
+
 
 import json
 from groq import Groq
@@ -12,13 +12,12 @@ from news_aggregator.database import (
 )
 
 
-# ─── GROQ CLIENT ─────────────────────────────────────────────────────
-client = Groq(api_key=settings.groq_api_key)
+
 MODEL  = "llama-3.3-70b-versatile"
 MAX_TRANSCRIPT_LENGTH = 8000
 
 
-# ─── SYSTEM PROMPT ────────────────────────────────────────────────────
+
 SYSTEM_PROMPT = """
 You are a professional news editor. Your job is to analyze YouTube 
 news video transcripts and return structured JSON summaries.
@@ -38,7 +37,7 @@ Rules:
 """
 
 
-# ─── SUMMARIZE WITH FULL TRANSCRIPT ──────────────────────────────────
+
 def summarize_article(video_id: str, title: str, transcript: str) -> ArticleSummary | None:
     """
     Sends transcript to Groq LLM and returns a structured summary.
@@ -93,7 +92,7 @@ Please summarize this news video.
         return None
 
 
-# ─── SUMMARIZE BY TITLE ONLY (FALLBACK) ──────────────────────────────
+
 def summarize_by_title(title: str) -> ArticleSummary | None:
     """
     Fallback: generates summary using only the video title.
@@ -141,7 +140,7 @@ Since we only have the title, keep the summary brief and factual.
         return None
 
 
-# ─── PROCESS ALL UNPROCESSED ARTICLES ────────────────────────────────
+
 def process_unprocessed_articles() -> None:
     """
     Master function called by scheduler.py every hour.
@@ -162,7 +161,7 @@ def process_unprocessed_articles() -> None:
 
     for article in articles:
 
-        # Use full transcript if available, else fall back to title only
+       
         if article.transcript:
             result = summarize_article(
                 video_id=article.video_id,

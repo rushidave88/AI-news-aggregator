@@ -7,12 +7,12 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from pydantic import BaseModel
 
 
-# ─── SQLALCHEMY BASE ─────────────────────────────────────────────────
+# ─── SQLALCHEMY BASE
 class Base(DeclarativeBase):
     pass
 
 
-# ─── DATABASE TABLE: news_articles ───────────────────────────────────
+# ─── DATABASE TABLE: news_articles
 class NewsArticle(Base):
     __tablename__ = "news_articles"
 
@@ -50,7 +50,7 @@ class NewsArticle(Base):
         return f"<NewsArticle id={self.id} title='{self.title[:40]}'>"
 
 
-# ─── DATABASE TABLE: subscribers ─────────────────────────────────────
+# ─── DATABASE TABLE: subscribers 
 class Subscriber(Base):
     __tablename__ = "subscribers"
 
@@ -66,7 +66,7 @@ class Subscriber(Base):
         return f"<Subscriber email='{self.email}'>"
 
 
-# ─── PYDANTIC MODEL: validate before saving ───────────────────────────
+# ─── PYDANTIC MODEL: validate before saving
 class ArticleCreate(BaseModel):
     video_id: str
     title: str

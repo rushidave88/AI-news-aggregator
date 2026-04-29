@@ -1,4 +1,3 @@
-# src/news_aggregator/scheduler.py
 
 import schedule
 import time
@@ -11,7 +10,7 @@ from news_aggregator.mailer import send_daily_digest
 from news_aggregator.database import save_article
 
 
-# ─── JOB 1: FETCH + SUMMARIZE ────────────────────────────────────────
+# ─── JOB 1: FETCH + SUMMARIZE
 def fetch_and_summarize() -> None:
     """
     Runs every hour:
@@ -43,7 +42,7 @@ def fetch_and_summarize() -> None:
     print(f"\n✅ Hourly job complete!")
 
 
-# ─── JOB 2: SEND EMAIL DIGEST ─────────────────────────────────────────
+# ─── JOB 2: SEND EMAIL DIGEST
 def send_digest() -> None:
     """
     Runs once every day at the configured hour (default 8AM):
@@ -58,25 +57,24 @@ def send_digest() -> None:
     print(f"\n✅ Daily digest job complete!")
 
 
-# ─── START SCHEDULER ──────────────────────────────────────────────────
+# ─── START SCHEDULER
 def start_scheduler() -> None:
     """
     Sets up all scheduled jobs and starts the infinite loop.
     Called once from main.py when the app starts.
     """
 
-    # ── Job 1: Fetch + Summarize every N minutes ──────────────────────
+    # ── Job 1: Fetch + Summarize every N minutes 
     interval = settings.fetch_interval_minutes
     schedule.every(interval).minutes.do(fetch_and_summarize)
     print(f"📅 Scheduled: fetch + summarize every {interval} minutes")
 
-    # ── Job 2: Email digest once per day at configured hour ───────────
+    # ── Job 2: Email digest once per day at configured hour
     digest_time = f"{settings.digest_hour:02d}:00"
     schedule.every().day.at(digest_time).do(send_digest)
     print(f"📅 Scheduled: email digest daily at {digest_time}")
 
-    # ── Run both jobs ONCE immediately on startup ─────────────────────
-    # So you don't have to wait 1 hour to see if everything works
+    # ── Run both jobs ONCE immediately on startup 
     print("\n🚀 Running initial fetch immediately on startup...")
     fetch_and_summarize()
 
@@ -84,7 +82,7 @@ def start_scheduler() -> None:
     print(f"   Next fetch in {interval} minutes")
     print(f"   Daily digest at {digest_time}\n")
 
-    # ── Infinite loop — keeps checking for scheduled jobs ─────────────
+    
     while True:
-        schedule.run_pending()  # Run any job whose time has come
-        time.sleep(60)          # Wait 60 seconds before checking again
+        schedule.run_pending()  
+        time.sleep(60)          #
